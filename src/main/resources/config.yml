@@ -1,0 +1,26 @@
+#######################################################################
+#                          ShyBossBar                                 #
+# 		            	   by Shynixn							      #
+#######################################################################
+
+############################
+# Language settings
+############################
+language: "en_us"
+
+############################
+# Command settings
+############################
+commands:
+  shybossbar:
+    aliases:
+      - "ssbossbar"
+
+############################
+# Global BossBar Settings
+############################
+global:
+  # How often are the permissions of a player checked to determine if he has got access to any bossBar.
+  checkForPermissionChangeSeconds: 3
+  # When a new player joins the server, after how many seconds are the bossBars created.
+  joinDelaySeconds: 3

@@ -1,0 +1,60 @@
+# All language key identifiers.
+playerNotFoundMessage:
+  # Available types: "CHAT", "TITLE", "ACTIONBAR", "HIDDEN".
+  # Please notice that some messages do only support chat.
+  type: "CHAT"
+  # The primary text to be sent.
+  text: "[&9ShyBossBar&f] &cPlayer %1$1s not found."
+  # Only available for type "TITLE". Adds a subTitle.
+  subTitle: ""
+  # Only available for type: "TITLE". Adds a fade in effect.
+  fadeInTicks: 20
+  # Only available for type: "TITLE". Adds a stay effect.
+  stayTicks: 60
+  # Only available for type: "TITLE". Adds a fade out effect.
+  fadeOutTicks: 20
+noPermissionCommand:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] &cYou do not have permission to execute this command."
+reloadCommandHint:
+  type: "CHAT"
+  text: "Reloads all bossBars and configuration."
+reloadMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] Reloaded all bossBars and configuration."
+commonErrorMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f]&c A problem occurred. Check the console log for details."
+commandSenderHasToBePlayer:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] The command sender has to be a player if you do not specify the optional player argument."
+bossBarCommandUsage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] Use /shybossbar help to see more info about the plugin."
+bossBarCommandDescription:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f]All commands for the ShyBossBar plugin."
+bossBarAddCommandHint:
+  type: "CHAT"
+  text: "Adds a bossBar to a player."
+bossBarRemoveCommandHint:
+  type: "CHAT"
+  text: "Removes a bossBar from a player."
+bossBarNotFoundMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] &cBossBar %1$1s not found."
+bossBarNoPermissionToBossBarCommand:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] &cYou do not have permission to this bossBar."
+bossBarAddedMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] Added the bossBar %1$1s to the player %2$1s."
+bossBarRemovedMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] Removed the bossBar %1$1s from the player %2$1s."
+bossBarUpdateCommandHint:
+  type: "CHAT"
+  text: "Updates the placeholder of the bossBar."
+bossBarUpdatedMessage:
+  type: "CHAT"
+  text: "[&9ShyBossBar&f] Updated the bossBar."
