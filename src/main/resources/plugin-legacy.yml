@@ -2,4 +2,4 @@ name: ShyBossBar
 version: 1.0.0
 author: Shynixn
 main: com.github.shynixn.shybossbar.ShyBossBarPlugin
-softdepend: [ PlaceholderAPI]
+softdepend: [ PlaceholderAPI, WorldGuard]

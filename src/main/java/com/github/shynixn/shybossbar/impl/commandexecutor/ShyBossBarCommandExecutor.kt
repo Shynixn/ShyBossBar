@@ -37,7 +37,7 @@ class ShyBossBarCommandExecutor(
     }
 
     private val senderHasToBePlayer: () -> String = {
-        language.commandSenderHasToBePlayer.text
+        language.shyBossBarCommandSenderHasToBePlayer.text
     }
 
     private val playerMustExist = object : Validator<Player> {
@@ -58,12 +58,28 @@ class ShyBossBarCommandExecutor(
         }
 
         override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return language.playerNotFoundMessage.text.format(openArgs[0])
+            return language.shyBossBarPlayerNotFoundMessage.text.format(openArgs[0])
         }
     }
 
-    private val bossBarTabs: (suspend (CommandSender) -> List<String>) = {
-        repository.getAll().map { e -> e.name }
+    private val bossBarTabs: (CommandSender) -> List<String> = {
+        repository.getCache()?.map { e -> e.name } ?: emptyList()
+    }
+
+    private val booleanTabs: (CommandSender) -> List<String> = {
+        listOf("true", "false")
+    }
+
+    private val booleanValidator = object : Validator<Boolean> {
+        override suspend fun transform(
+            sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>
+        ): Boolean? {
+            return openArgs[0].toBooleanStrictOrNull()
+        }
+
+        override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
+            return language.shyBossBarBooleanNotFoundMessage.text.format(openArgs[0])
+        }
     }
 
     private val bossBarMustExist = object : Validator<ShyBossBarMeta> {
@@ -74,24 +90,24 @@ class ShyBossBarCommandExecutor(
         }
 
         override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return language.bossBarNotFoundMessage.text.format(openArgs[0])
+            return language.shyBossBarNotFoundMessage.text.format(openArgs[0])
         }
     }
 
-    private val onlinePlayerTabs: (suspend (CommandSender) -> List<String>) = {
+    private val onlinePlayerTabs: (CommandSender) -> List<String> = {
         Bukkit.getOnlinePlayers().map { e -> e.name }
     }
 
     init {
         CommandBuilder(plugin, coroutineExecutor, settings.baseCommand, chatMessageService) {
-            usage(language.bossBarCommandUsage.text)
-            description(language.bossBarCommandDescription.text)
+            usage(language.shyBossBarCommandUsage.text)
+            description(language.shyBossBarCommandDescription.text)
             aliases(settings.commandAliases)
             permission(settings.commandPermission)
-            permissionMessage(language.noPermissionCommand.text)
+            permissionMessage(language.shyBossBarNoPermissionCommand.text)
             subCommand("add") {
                 permission(settings.addPermission)
-                toolTip { language.bossBarAddCommandHint.text }
+                toolTip { language.shyBossBarAddCommandHint.text }
                 builder().argument("bossbar").validator(bossBarMustExist)
                     .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
                         plugin.launch {
@@ -104,54 +120,74 @@ class ShyBossBarCommandExecutor(
                         }
                     }
             }
-            subCommand("remove") {
-                permission(settings.removePermission)
-                toolTip { language.bossBarRemoveCommandHint.text }
+            subCommand("set") {
+                permission(settings.setPermission)
+                toolTip { language.shyBossBarSetCommandHint.text }
                 builder().argument("bossbar").validator(bossBarMustExist)
                     .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
                         plugin.launch {
-                            remoteBossBarFromPlayer(player, bossBarMeta, player)
+                            setBossBarToPlayer(player, bossBarMeta, player)
                         }
                     }.argument("player").validator(playerMustExist).tabs(onlinePlayerTabs)
                     .execute { commandSender, bossBarMeta, player ->
                         plugin.launch {
-                            remoteBossBarFromPlayer(commandSender, bossBarMeta, player)
+                            setBossBarToPlayer(commandSender, bossBarMeta, player)
+                        }
+                    }
+            }
+            subCommand("remove") {
+                permission(settings.removePermission)
+                toolTip { language.shyBossBarRemoveCommandHint.text }
+                builder().argument("bossbar").validator(bossBarMustExist)
+                    .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
+                        plugin.launch {
+                            removeBossBarFromPlayer(player, bossBarMeta, player)
+                        }
+                    }.argument("player").validator(playerMustExist).tabs(onlinePlayerTabs)
+                    .execute { commandSender, bossBarMeta, player ->
+                        plugin.launch {
+                            removeBossBarFromPlayer(commandSender, bossBarMeta, player)
                         }
                     }
             }
             subCommand("update") {
                 permission(settings.updatePermission)
-                toolTip { language.bossBarUpdateCommandHint.text }
+                toolTip { language.shyBossBarUpdateCommandHint.text }
                 builder().executePlayer(senderHasToBePlayer) { player ->
                     plugin.launch {
-                        updatePlayerBossBar(player, player)
+                        updatePlayerBossBar(player, true, player)
                     }
-                }.argument("player").validator(playerMustExist).tabs(onlinePlayerTabs)
-                    .execute { commandSender, player ->
+                }.argument("respawn").validator(booleanValidator).tabs(booleanTabs)
+                    .executePlayer(senderHasToBePlayer) { player, flag ->
                         plugin.launch {
-                            updatePlayerBossBar(commandSender, player)
+                            updatePlayerBossBar(player, flag, player)
+                        }
+                    }.argument("player").validator(playerMustExist).tabs(onlinePlayerTabs)
+                    .execute { commandSender, flag, player ->
+                        plugin.launch {
+                            updatePlayerBossBar(commandSender, flag, player)
                         }
                     }
             }
             subCommand("reload") {
                 permission(settings.reloadPermission)
                 toolTip {
-                    language.reloadCommandHint.text
+                    language.shyBossBarReloadCommandHint.text
                 }
                 builder().execute { sender ->
                     plugin.saveDefaultConfig()
                     plugin.reloadConfig()
                     plugin.reloadTranslation(language)
                     bossBarService.reload()
-                    sender.sendPluginMessage(language.reloadMessage)
+                    sender.sendPluginMessage(language.shyBossBarReloadMessage)
                 }
             }.helpCommand()
         }.build()
     }
 
-    private fun updatePlayerBossBar(sender: CommandSender, player: Player) {
-        bossBarService.getBossBarFromPlayer(player)?.update(true)
-        sender.sendPluginMessage(language.bossBarUpdatedMessage)
+    private fun updatePlayerBossBar(sender: CommandSender, respawn: Boolean, player: Player) {
+        bossBarService.getBossBarFromPlayer(player)?.update(respawn)
+        sender.sendPluginMessage(language.shyBossBarUpdatedMessage)
     }
 
     private fun addBossBarToPlayer(
@@ -160,20 +196,38 @@ class ShyBossBarCommandExecutor(
         player: Player
     ) {
         if (!player.hasPermission("${settings.dynBossBarPermission}${bossBarMeta.name}")) {
-            sender.sendPluginMessage(language.bossBarNoPermissionToBossBarCommand)
+            sender.sendPluginMessage(language.shyBossBarNoPermissionToBossBarCommand)
             return
         }
 
-        bossBarService.addPriorityBossBar(player, bossBarMeta.name)
-        sender.sendPluginMessage(language.bossBarAddedMessage, bossBarMeta.name, player.name)
+        bossBarService.addCommandBossBar(player, bossBarMeta.name)
+        sender.sendPluginMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
     }
 
-    private fun remoteBossBarFromPlayer(
+    private fun setBossBarToPlayer(
         sender: CommandSender,
         bossBarMeta: ShyBossBarMeta,
         player: Player
     ) {
-        bossBarService.removePriorityBossBar(player, bossBarMeta.name)
-        sender.sendPluginMessage(language.bossBarRemovedMessage, bossBarMeta.name, player.name)
+        if (!player.hasPermission("${settings.dynBossBarPermission}${bossBarMeta.name}")) {
+            sender.sendPluginMessage(language.shyBossBarNoPermissionToBossBarCommand)
+            return
+        }
+
+        val bossBars = bossBarService.getCommandBossBars(player)
+        for (bossBar in bossBars) {
+            bossBarService.removeCommandBossBar(player, bossBar)
+        }
+        bossBarService.addCommandBossBar(player, bossBarMeta.name)
+        sender.sendPluginMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
+    }
+
+    private fun removeBossBarFromPlayer(
+        sender: CommandSender,
+        bossBarMeta: ShyBossBarMeta,
+        player: Player
+    ) {
+        bossBarService.removeCommandBossBar(player, bossBarMeta.name)
+        sender.sendPluginMessage(language.shyBossBarRemovedMessage, bossBarMeta.name, player.name)
     }
 }

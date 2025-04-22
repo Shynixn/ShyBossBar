@@ -1,6 +1,6 @@
 package com.github.shynixn.shybossbar
 
-import com.fasterxml.jackson.core.type.TypeReference
+import com.github.shynixn.fasterxml.jackson.core.type.TypeReference
 import com.github.shynixn.mcutils.common.ConfigurationService
 import com.github.shynixn.mcutils.common.ConfigurationServiceImpl
 import com.github.shynixn.mcutils.common.chat.ChatMessageService
@@ -16,6 +16,7 @@ import com.github.shynixn.mcutils.common.repository.YamlFileRepositoryImpl
 import com.github.shynixn.mcutils.packet.api.PacketService
 import com.github.shynixn.mcutils.packet.impl.service.ChatMessageServiceImpl
 import com.github.shynixn.mcutils.packet.impl.service.PacketServiceImpl
+import com.github.shynixn.mcutils.worldguard.WorldGuardService
 import com.github.shynixn.shybossbar.contract.BossBarFactory
 import com.github.shynixn.shybossbar.contract.BossBarService
 import com.github.shynixn.shybossbar.contract.ShyBossBarLanguage
@@ -30,7 +31,10 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.ServicePriority
 
 class ShyBossBarDependencyInjectionModule(
-    private val plugin: Plugin, private val settings: ShyBossBarSettings, private val language: ShyBossBarLanguage
+    private val plugin: Plugin,
+    private val settings: ShyBossBarSettings,
+    private val language: ShyBossBarLanguage,
+    private val worldGuardService: WorldGuardService
 ) {
     fun build(): DependencyInjectionModule {
         val module = DependencyInjectionModule()
@@ -43,7 +47,7 @@ class ShyBossBarDependencyInjectionModule(
         // Repositories
         val templateRepositoryImpl = YamlFileRepositoryImpl<ShyBossBarMeta>(
             plugin,
-            "bossbar",
+            plugin.dataFolder.toPath().resolve("bossbar"),
             settings.defaultBossBars,
             emptyList(),
             object : TypeReference<ShyBossBarMeta>() {})
@@ -69,7 +73,7 @@ class ShyBossBarDependencyInjectionModule(
             BossBarFactoryImpl(module.getService(), module.getService(), module.getService())
         }
         module.addService<BossBarService> {
-            BossBarServiceImpl(module.getService(), module.getService(), module.getService(), module.getService())
+            BossBarServiceImpl(module.getService(), module.getService(), module.getService(), module.getService(), module.getService())
         }
 
         // Library Services
@@ -79,6 +83,7 @@ class ShyBossBarDependencyInjectionModule(
         module.addService<PlaceHolderService>(placeHolderService)
         val chatMessageService = ChatMessageServiceImpl(plugin)
         module.addService<ChatMessageService>(chatMessageService)
+        module.addService<WorldGuardService> { worldGuardService }
         plugin.globalChatMessageService = chatMessageService
         plugin.globalPlaceHolderService = placeHolderService
 

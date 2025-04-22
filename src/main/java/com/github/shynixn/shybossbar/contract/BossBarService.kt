@@ -24,12 +24,17 @@ interface BossBarService : AutoCloseable {
     fun getBossBarFromPlayer(player: Player): ShyBossBar?
 
     /**
-     * Adds a new bossBar.
+     * Adds a new bossBar
      */
-    fun addPriorityBossBar(player: Player, name: String)
+    fun addCommandBossBar(player: Player, name: String)
 
     /**
      * Removes a new bossBar.
      */
-    fun removePriorityBossBar(player: Player, name: String)
+    fun removeCommandBossBar(player: Player, name: String)
+
+    /**
+     * Gets all command bossBar.
+     */
+    fun getCommandBossBars(player: Player): List<String>
 }

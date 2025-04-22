@@ -11,12 +11,17 @@ class ShyBossBarSettings(private val reloadFun: (ShyBossBarSettings) -> Unit) {
     /**
      * Permission change seconds.
      */
-    var checkForPermissionChangeSeconds = 5
+    var checkForChangeChangeSeconds = 5
 
     /**
      * Base Command.
      */
     var baseCommand: String = "shybossbar"
+
+    /**
+     * Worldguard flag.
+     */
+    var worldGuardFlag: String = "shybossbar"
 
     /**
      * Command aliases.
@@ -33,13 +38,13 @@ class ShyBossBarSettings(private val reloadFun: (ShyBossBarSettings) -> Unit) {
 
     var addPermission: String = Permission.ADD.text
 
+    var setPermission: String = Permission.SET.text
+
     var removePermission: String = Permission.REMOVE.text
 
     var updatePermission: String = Permission.UPDATE.text
 
     var defaultBossBars: List<Pair<String, String>> = listOf(
-        "bossbar/blockball_red_team.yml" to "blockball_red_team.yml",
-        "bossbar/blockball_blue_team.yml" to "blockball_blue_team.yml",
         "bossbar/sample_bossbar.yml" to "sample_bossbar.yml"
     )
 

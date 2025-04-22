@@ -35,6 +35,11 @@ class ShyBossBarMeta : Element {
     var color: String = "WHITE"
 
     /**
+     * Progress
+     */
+    var progress: String = "1.0F"
+
+    /**
      * Style
      */
     var style: String = "SOLID"

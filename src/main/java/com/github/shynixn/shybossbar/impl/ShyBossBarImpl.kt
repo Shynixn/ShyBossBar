@@ -10,6 +10,8 @@ import com.github.shynixn.mcutils.packet.api.packet.PacketOutBossBarUpdate
 import com.github.shynixn.shybossbar.contract.ShyBossBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import org.bukkit.Bukkit
+import org.bukkit.boss.BarColor
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
@@ -29,6 +31,11 @@ class ShyBossBarImpl(
      * Style
      */
     override var style: String,
+
+    /**
+     * Progress.
+     */
+    override var progress: String,
 
     /**
      * Flags
@@ -58,7 +65,8 @@ class ShyBossBarImpl(
     /**
      * Plugin
      */
-    private var plugin: Plugin
+    private var plugin: Plugin,
+
 ) : ShyBossBar {
     private var lastMessage = ""
     private var lastColor = ""
@@ -137,15 +145,20 @@ class ShyBossBarImpl(
 
         if (message != lastMessage) {
             packetOutBossBarUpdate.message = message
+            println("UPDATE MESSAGE")
         }
         if (color != lastColor) {
             packetOutBossBarUpdate.color = color
+            println("UPDATECOLOR")
+
         }
         if (progressRaw != lastProgress) {
             packetOutBossBarUpdate.progress = progress
+            println("UPDATEPROGRESS")
         }
         if (style != lastStyle) {
             packetOutBossBarUpdate.style = style
+            println("UPDATESTYLE")
         }
 
         lastMessage = message
@@ -186,11 +199,12 @@ class ShyBossBarImpl(
 
     private suspend fun resolveTitleAndLines(): Array<String> {
         return withContext(plugin.globalRegionDispatcher) {
-            if (isDisposed) {
-                return@withContext emptyArray()
-            }
+            val player = playerParam ?: return@withContext arrayOf(lastMessage, lastColor, lastProgress, lastStyle)
             val finalMessage = placeHolderService.resolvePlaceHolder(message, player)
-            arrayOf(finalMessage)
+            val finalColor = placeHolderService.resolvePlaceHolder(color, player)
+            val finalProgress = placeHolderService.resolvePlaceHolder(progress, player)
+            val finalStyle = placeHolderService.resolvePlaceHolder(lastStyle, player)
+            arrayOf(finalMessage, finalColor, finalProgress, finalStyle)
         }
     }
 

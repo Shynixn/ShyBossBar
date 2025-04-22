@@ -8,6 +8,8 @@ import com.github.shynixn.mcutils.common.checkIfFoliaIsLoadable
 import com.github.shynixn.mcutils.common.di.DependencyInjectionModule
 import com.github.shynixn.mcutils.common.language.reloadTranslation
 import com.github.shynixn.mcutils.common.placeholder.PlaceHolderService
+import com.github.shynixn.mcutils.worldguard.WorldGuardService
+import com.github.shynixn.mcutils.worldguard.WorldGuardServiceImpl
 import com.github.shynixn.shybossbar.contract.BossBarService
 import com.github.shynixn.shybossbar.entity.ShyBossBarSettings
 import com.github.shynixn.shybossbar.enumeration.PlaceHolder
@@ -20,6 +22,7 @@ import java.util.logging.Level
 class ShyBossBarPlugin : JavaPlugin() {
     private val prefix: String = ChatColor.BLUE.toString() + "[ShyBossBar] " + ChatColor.WHITE
     private var module: DependencyInjectionModule? = null
+    private var worldGuardService: WorldGuardService? = null
 
     companion object {
         private val areLegacyVersionsIncluded: Boolean by lazy {
@@ -62,9 +65,10 @@ class ShyBossBarPlugin : JavaPlugin() {
                 Version.VERSION_1_21_R1,
                 Version.VERSION_1_21_R2,
                 Version.VERSION_1_21_R3,
+                Version.VERSION_1_21_R4,
             )
         } else {
-            listOf(Version.VERSION_1_21_R3)
+            listOf(Version.VERSION_1_21_R4)
         }
 
         if (!Version.serverVersion.isCompatible(*versions.toTypedArray())) {
@@ -99,10 +103,10 @@ class ShyBossBarPlugin : JavaPlugin() {
         val plugin = this
         val settings = ShyBossBarSettings { settings ->
             settings.joinDelaySeconds = plugin.config.getInt("global.joinDelaySeconds")
-            settings.checkForPermissionChangeSeconds = plugin.config.getInt("global.checkForPermissionChangeSeconds")
+            settings.checkForChangeChangeSeconds = plugin.config.getInt("global.checkForPermissionChangeSeconds")
         }
         settings.reload()
-        this.module = ShyBossBarDependencyInjectionModule(this, settings, language).build()
+        this.module = ShyBossBarDependencyInjectionModule(this, settings, language, worldGuardService!!).build()
 
         // Register PlaceHolders
         PlaceHolder.registerAll(
@@ -120,6 +124,12 @@ class ShyBossBarPlugin : JavaPlugin() {
             bossBarService.reload()
             Bukkit.getServer().consoleSender.sendMessage(prefix + ChatColor.GREEN + "Enabled ShyBossBar " + plugin.description.version + " by Shynixn")
         }
+    }
+
+    override fun onLoad() {
+        // Register Flags
+        worldGuardService = WorldGuardServiceImpl(this)
+        worldGuardService!!.registerFlag("shybossbar", String::class.java)
     }
 
     override fun onDisable() {

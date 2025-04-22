@@ -19,6 +19,11 @@ interface ShyBossBar {
     var color: String
 
     /**
+     * Progress.
+     */
+    var progress : String
+
+    /**
      * Style
      */
     var style: String

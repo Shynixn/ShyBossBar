@@ -4,11 +4,11 @@ import java.io.*
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version ("1.9.25")
-    id("com.github.johnrengelman.shadow") version ("7.0.0")
+    id("com.gradleup.shadow") version ("8.3.6")
 }
 
 group = "com.github.shynixn"
-version = "1.09.0"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -21,15 +21,15 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
 
     // Library dependencies with legacy compatibility, we can use more up-to-date version in the plugin.yml
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-folia-api:2.21.0")
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-folia-core:2.21.0")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.3.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.2.3")
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-folia-api:2.22.0")
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-folia-core:2.22.0")
+    implementation("com.github.shynixn:fasterxml:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
 
     // Custom dependencies
-    implementation("com.github.shynixn.mcutils:common:2025.6")
-    implementation("com.github.shynixn.mcutils:packet:2025.10")
+    implementation("com.github.shynixn.mcutils:common:2025.22")
+    implementation("com.github.shynixn.mcutils:packet:2025.17")
+    implementation("com.github.shynixn.mcutils:worldguard:2025.4")
 
     // Test
     testImplementation(kotlin("test"))
@@ -75,7 +75,6 @@ tasks.register("relocatePluginJar", com.github.jengelman.gradle.plugins.shadow.t
     from(zipTree(File("./build/libs/" + (tasks.getByName("shadowJar") as Jar).archiveFileName.get())))
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-relocate.${archiveExtension.get()}")
     relocate("com.github.shynixn.mcutils", "com.github.shynixn.shybossbar.lib.com.github.shynixn.mcutils")
-    relocate("com.fasterxml", "com.github.shynixn.shybossbar.lib.com.fasterxml")
 }
 
 /**
@@ -85,7 +84,7 @@ tasks.register("pluginJarLatest", com.github.jengelman.gradle.plugins.shadow.tas
     dependsOn("relocatePluginJar")
     from(zipTree(File("./build/libs/" + (tasks.getByName("relocatePluginJar") as Jar).archiveFileName.get())))
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-latest.${archiveExtension.get()}")
-    // destinationDirectory.set(File("C:\\temp\\plugins"))
+    destinationDirectory.set(File("C:\\temp\\plugins"))
 
     exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_8_R3/**")
     exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_9_R2/**")
@@ -98,18 +97,20 @@ tasks.register("pluginJarLatest", com.github.jengelman.gradle.plugins.shadow.tas
     exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_20_R1/**")
     exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_20_R2/**")
     exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_20_R3/**")
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_20_R4/**")
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_21_R1/**")
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_21_R2/**")
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/packet/nms/v1_21_R3/**")
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
     exclude("com/github/shynixn/mcutils/**")
     exclude("com/github/shynixn/mccoroutine/**")
+    exclude("com/github/shynixn/fasterxml/**")
     exclude("kotlin/**")
     exclude("org/**")
     exclude("kotlinx/**")
     exclude("javax/**")
-    exclude("com/google/**")
-    exclude("com/fasterxml/**")
-    exclude("com/zaxxer/**")
     exclude("plugin-folia.yml")
     exclude("plugin-legacy.yml")
-    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
 }
 
 /**
@@ -121,18 +122,16 @@ tasks.register("pluginJarPremium", com.github.jengelman.gradle.plugins.shadow.ta
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-premium.${archiveExtension.get()}")
     // destinationDirectory.set(File("C:\\temp\\plugins"))
 
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
     exclude("com/github/shynixn/mcutils/**")
     exclude("com/github/shynixn/mccoroutine/**")
+    exclude("com/github/shynixn/fasterxml/**")
     exclude("kotlin/**")
     exclude("org/**")
     exclude("kotlinx/**")
     exclude("javax/**")
-    exclude("com/zaxxer/**")
-    exclude("com/google/**")
-    exclude("com/fasterxml/**")
     exclude("plugin-folia.yml")
     exclude("plugin-legacy.yml")
-    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
 }
 
 /**
@@ -143,7 +142,6 @@ tasks.register("relocateFoliaPluginJar", com.github.jengelman.gradle.plugins.sha
     from(zipTree(File("./build/libs/" + (tasks.getByName("shadowJar") as Jar).archiveFileName.get())))
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-relocate-folia.${archiveExtension.get()}")
     relocate("com.github.shynixn.mcutils", "com.github.shynixn.shybossbar.lib.com.github.shynixn.mcutils")
-    relocate("com.fasterxml", "com.github.shynixn.shybossbar.lib.com.fasterxml")
     exclude("plugin.yml")
     rename("plugin-folia.yml", "plugin.yml")
 }
@@ -159,13 +157,11 @@ tasks.register("pluginJarPremiumFolia", com.github.jengelman.gradle.plugins.shad
 
     exclude("com/github/shynixn/mcutils/**")
     exclude("com/github/shynixn/mccoroutine/**")
+    exclude("com/github/shynixn/fasterxml/**")
     exclude("kotlin/**")
     exclude("org/**")
     exclude("kotlinx/**")
     exclude("javax/**")
-    exclude("com/zaxxer/**")
-    exclude("com/google/**")
-    exclude("com/fasterxml/**")
     exclude("plugin-folia.yml")
     exclude("plugin-legacy.yml")
 }
@@ -178,21 +174,13 @@ tasks.register("relocateLegacyPluginJar", com.github.jengelman.gradle.plugins.sh
     from(zipTree(File("./build/libs/" + (tasks.getByName("shadowJar") as Jar).archiveFileName.get())))
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-legacy-relocate.${archiveExtension.get()}")
     relocate("com.github.shynixn.mcutils", "com.github.shynixn.shybossbar.lib.com.github.shynixn.mcutils")
-    relocate("kotlin", "com.github.shynixn.shybossbar.lib.kotlin")
-    relocate("org.intellij", "com.github.shynixn.shybossbar.lib.org.intelli")
-    relocate("org.aopalliance", "com.github.shynixn.shybossbar.lib.org.aopalliance")
-    relocate("org.checkerframework", "com.github.shynixn.shybossbar.lib.org.checkerframework")
-    relocate("org.jetbrains", "com.github.shynixn.shybossbar.lib.org.jetbrains")
-    relocate("org.openjdk.nashorn", "com.github.shynixn.shybossbar.lib.org.openjdk.nashorn")
-    relocate("org.slf4j", "com.github.shynixn.shybossbar.lib.org.slf4j")
-    relocate("org.objectweb", "com.github.shynixn.shybossbar.lib.org.objectweb")
-    relocate("javax.annotation", "com.github.shynixn.shybossbar.lib.javax.annotation")
-    relocate("javax.inject", "com.github.shynixn.shybossbar.lib.javax.inject")
-    relocate("kotlinx.coroutines", "com.github.shynixn.shybossbar.lib.kotlinx.coroutines")
-    relocate("com.google", "com.github.shynixn.shybossbar.lib.com.google")
-    relocate("com.fasterxml", "com.github.shynixn.shybossbar.lib.com.fasterxml")
-    relocate("com.zaxxer", "com.github.shynixn.shybossbar.lib.com.zaxxer")
     relocate("com.github.shynixn.mccoroutine", "com.github.shynixn.shybossbar.lib.com.github.shynixn.mccoroutine")
+    relocate("com.github.shynixn.fasterxml", "com.github.shynixn.shybossbar.lib.com.github.shynixn.fasterxml")
+    relocate("kotlin", "com.github.shynixn.shybossbar.lib.kotlin")
+    relocate("kotlinx", "com.github.shynixn.shybossbar.lib.kotlinx")
+    relocate("org.intellij", "com.github.shynixn.shybossbar.lib.org.intellij")
+    relocate("org.jetbrains", "com.github.shynixn.shybossbar.lib.org.jetbrains")
+    relocate("javax", "com.github.shynixn.shybossbar.lib.javax")
     exclude("plugin.yml")
     rename("plugin-legacy.yml", "plugin.yml")
 }
@@ -205,18 +193,16 @@ tasks.register("pluginJarLegacy", com.github.jengelman.gradle.plugins.shadow.tas
     from(zipTree(File("./build/libs/" + (tasks.getByName("relocateLegacyPluginJar") as Jar).archiveFileName.get())))
     archiveFileName.set("${archiveBaseName.get()}-${archiveVersion.get()}-legacy.${archiveExtension.get()}")
     // destinationDirectory.set(File("C:\\temp\\plugins"))
+    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
     exclude("com/github/shynixn/mcutils/**")
-    exclude("org/**")
+    exclude("com/github/shynixn/mccoroutine/**")
+    exclude("com/github/shynixn/fasterxml/**")
     exclude("kotlin/**")
+    exclude("org/**")
     exclude("kotlinx/**")
     exclude("javax/**")
-    exclude("com/google/**")
-    exclude("com/github/shynixn/mccoroutine/**")
-    exclude("com/fasterxml/**")
-    exclude("com/zaxxer/**")
-    exclude("plugin-legacy.yml")
     exclude("plugin-folia.yml")
-    exclude("com/github/shynixn/shybossbar/lib/com/github/shynixn/mcutils/common/FoliaMarker.class")
+    exclude("plugin-legacy.yml")
 }
 
 tasks.register("languageFile") {

@@ -4,35 +4,39 @@ import com.github.shynixn.mcutils.common.language.LanguageItem
 import com.github.shynixn.mcutils.common.language.LanguageProvider
 
 interface ShyBossBarLanguage : LanguageProvider {
-  var playerNotFoundMessage: LanguageItem
+  var shyBossBarPlayerNotFoundMessage: LanguageItem
 
-  var noPermissionCommand: LanguageItem
+  var shyBossBarNoPermissionCommand: LanguageItem
 
-  var reloadCommandHint: LanguageItem
+  var shyBossBarReloadCommandHint: LanguageItem
 
-  var reloadMessage: LanguageItem
+  var shyBossBarReloadMessage: LanguageItem
 
-  var commonErrorMessage: LanguageItem
+  var shyBossBarCommonErrorMessage: LanguageItem
 
-  var commandSenderHasToBePlayer: LanguageItem
+  var shyBossBarCommandSenderHasToBePlayer: LanguageItem
 
-  var bossBarCommandUsage: LanguageItem
+  var shyBossBarCommandUsage: LanguageItem
 
-  var bossBarCommandDescription: LanguageItem
+  var shyBossBarCommandDescription: LanguageItem
 
-  var bossBarAddCommandHint: LanguageItem
+  var shyBossBarAddCommandHint: LanguageItem
 
-  var bossBarRemoveCommandHint: LanguageItem
+  var shyBossBarSetCommandHint: LanguageItem
 
-  var bossBarNotFoundMessage: LanguageItem
+  var shyBossBarRemoveCommandHint: LanguageItem
 
-  var bossBarNoPermissionToBossBarCommand: LanguageItem
+  var shyBossBarNotFoundMessage: LanguageItem
 
-  var bossBarAddedMessage: LanguageItem
+  var shyBossBarNoPermissionToBossBarCommand: LanguageItem
 
-  var bossBarRemovedMessage: LanguageItem
+  var shyBossBarAddedMessage: LanguageItem
 
-  var bossBarUpdateCommandHint: LanguageItem
+  var shyBossBarRemovedMessage: LanguageItem
 
-  var bossBarUpdatedMessage: LanguageItem
+  var shyBossBarUpdateCommandHint: LanguageItem
+
+  var shyBossBarUpdatedMessage: LanguageItem
+
+  var shyBossBarBooleanNotFoundMessage: LanguageItem
 }

@@ -29,6 +29,7 @@ class BossBarFactoryImpl(
             meta.message,
             meta.color,
             meta.style,
+            meta.progress,
             meta.flags,
             player,
             refreshMilliSeconds,
