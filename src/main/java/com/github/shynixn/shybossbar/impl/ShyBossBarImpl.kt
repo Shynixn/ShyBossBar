@@ -10,8 +10,6 @@ import com.github.shynixn.mcutils.packet.api.packet.PacketOutBossBarUpdate
 import com.github.shynixn.shybossbar.contract.ShyBossBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.bukkit.Bukkit
-import org.bukkit.boss.BarColor
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
@@ -203,14 +201,14 @@ class ShyBossBarImpl(
             val finalMessage = placeHolderService.resolvePlaceHolder(message, player)
             val finalColor = placeHolderService.resolvePlaceHolder(color, player)
             val finalProgress = placeHolderService.resolvePlaceHolder(progress, player)
-            val finalStyle = placeHolderService.resolvePlaceHolder(lastStyle, player)
+            val finalStyle = placeHolderService.resolvePlaceHolder(style, player)
             arrayOf(finalMessage, finalColor, finalProgress, finalStyle)
         }
     }
 
     private fun checkDisposed() {
         if (isDisposed) {
-            throw IllegalArgumentException("ShyBossBaris already disposed!")
+            throw IllegalArgumentException("ShyBossBar is already disposed!")
         }
     }
 }

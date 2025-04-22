@@ -15,7 +15,7 @@ message: "&aSample BossBar"
 color: "WHITE"
 # Progress of the BossBar in the range 0.0 to 1.0. Supports placeholders and should be a text value.
 progress: "1.0"
-# Style of the BossBar. Supports placeholders. Possibles values: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
-style: "SOLID"
+# Style of the BossBar. Supports placeholders. Possibles values: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+style: "PROGRESS"
 # List of flags of a BossBar. Possibles values: DARKEN_SKY, PLAY_BOSS_MUSIC, CREATE_FOG
 flags: []
