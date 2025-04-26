@@ -8,6 +8,7 @@ import com.github.shynixn.mcutils.common.checkIfFoliaIsLoadable
 import com.github.shynixn.mcutils.common.di.DependencyInjectionModule
 import com.github.shynixn.mcutils.common.language.reloadTranslation
 import com.github.shynixn.mcutils.common.placeholder.PlaceHolderService
+import com.github.shynixn.mcutils.common.placeholder.PlaceHolderServiceImpl
 import com.github.shynixn.mcutils.worldguard.WorldGuardService
 import com.github.shynixn.mcutils.worldguard.WorldGuardServiceImpl
 import com.github.shynixn.shybossbar.contract.BossBarService
@@ -106,7 +107,8 @@ class ShyBossBarPlugin : JavaPlugin() {
             settings.checkForChangeChangeSeconds = plugin.config.getInt("global.checkForPermissionChangeSeconds")
         }
         settings.reload()
-        this.module = ShyBossBarDependencyInjectionModule(this, settings, language, worldGuardService!!).build()
+        val placeHolderService = PlaceHolderServiceImpl(this)
+        this.module = ShyBossBarDependencyInjectionModule(this, settings, language, worldGuardService!!, placeHolderService).build()
 
         // Register PlaceHolders
         PlaceHolder.registerAll(

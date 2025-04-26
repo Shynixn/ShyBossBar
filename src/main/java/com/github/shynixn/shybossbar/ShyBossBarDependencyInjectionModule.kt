@@ -8,7 +8,6 @@ import com.github.shynixn.mcutils.common.di.DependencyInjectionModule
 import com.github.shynixn.mcutils.common.language.globalChatMessageService
 import com.github.shynixn.mcutils.common.language.globalPlaceHolderService
 import com.github.shynixn.mcutils.common.placeholder.PlaceHolderService
-import com.github.shynixn.mcutils.common.placeholder.PlaceHolderServiceImpl
 import com.github.shynixn.mcutils.common.repository.CacheRepository
 import com.github.shynixn.mcutils.common.repository.CachedRepositoryImpl
 import com.github.shynixn.mcutils.common.repository.Repository
@@ -34,7 +33,8 @@ class ShyBossBarDependencyInjectionModule(
     private val plugin: Plugin,
     private val settings: ShyBossBarSettings,
     private val language: ShyBossBarLanguage,
-    private val worldGuardService: WorldGuardService
+    private val worldGuardService: WorldGuardService,
+    private val placeHolderService: PlaceHolderService
 ) {
     fun build(): DependencyInjectionModule {
         val module = DependencyInjectionModule()
@@ -79,7 +79,6 @@ class ShyBossBarDependencyInjectionModule(
         // Library Services
         module.addService<ConfigurationService>(ConfigurationServiceImpl(plugin))
         module.addService<PacketService>(PacketServiceImpl(plugin))
-        val placeHolderService = PlaceHolderServiceImpl(plugin)
         module.addService<PlaceHolderService>(placeHolderService)
         val chatMessageService = ChatMessageServiceImpl(plugin)
         module.addService<ChatMessageService>(chatMessageService)
