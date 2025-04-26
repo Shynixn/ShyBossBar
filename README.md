@@ -1,6 +1,6 @@
 # ShyBossBar
 
-ShyBossBar is a BossBar plugin for Bukkit and Folia based Minecraft servers.
+ShyBossBar is a BossBar plugin for Bukkit and Folia based Minecraft server.
 
 ## Features
 
