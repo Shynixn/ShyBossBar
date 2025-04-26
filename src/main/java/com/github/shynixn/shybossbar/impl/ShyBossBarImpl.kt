@@ -143,20 +143,15 @@ class ShyBossBarImpl(
 
         if (message != lastMessage) {
             packetOutBossBarUpdate.message = message
-            println("UPDATE MESSAGE")
         }
         if (color != lastColor) {
             packetOutBossBarUpdate.color = color
-            println("UPDATECOLOR")
-
         }
         if (progressRaw != lastProgress) {
             packetOutBossBarUpdate.progress = progress
-            println("UPDATEPROGRESS")
         }
         if (style != lastStyle) {
             packetOutBossBarUpdate.style = style
-            println("UPDATESTYLE")
         }
 
         lastMessage = message
