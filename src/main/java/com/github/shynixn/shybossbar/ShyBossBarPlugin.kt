@@ -67,9 +67,10 @@ class ShyBossBarPlugin : JavaPlugin() {
                 Version.VERSION_1_21_R2,
                 Version.VERSION_1_21_R3,
                 Version.VERSION_1_21_R4,
+                Version.VERSION_1_21_R5
             )
         } else {
-            listOf(Version.VERSION_1_21_R4)
+            listOf(Version.VERSION_1_21_R5)
         }
 
         if (!Version.serverVersion.isCompatible(*versions.toTypedArray())) {
