@@ -47,6 +47,7 @@ class ShyBossBarDependencyInjectionModule(
         // Repositories
         val templateRepositoryImpl = YamlFileRepositoryImpl<ShyBossBarMeta>(
             plugin,
+            "bossbar",
             plugin.dataFolder.toPath().resolve("bossbar"),
             settings.defaultBossBars,
             emptyList(),
