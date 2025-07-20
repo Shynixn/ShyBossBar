@@ -2,12 +2,13 @@ package com.github.shynixn.shybossbar.impl.commandexecutor
 
 import com.github.shynixn.mccoroutine.folia.globalRegionDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import com.github.shynixn.mcutils.common.CoroutineExecutor
+import com.github.shynixn.mcutils.common.CoroutinePlugin
 import com.github.shynixn.mcutils.common.chat.ChatMessageService
 import com.github.shynixn.mcutils.common.command.CommandBuilder
 import com.github.shynixn.mcutils.common.command.Validator
+import com.github.shynixn.mcutils.common.language.LanguageItem
 import com.github.shynixn.mcutils.common.language.reloadTranslation
-import com.github.shynixn.mcutils.common.language.sendPluginMessage
+import com.github.shynixn.mcutils.common.placeholder.PlaceHolderService
 import com.github.shynixn.mcutils.common.repository.CacheRepository
 import com.github.shynixn.shybossbar.contract.BossBarService
 import com.github.shynixn.shybossbar.contract.ShyBossBarLanguage
@@ -16,26 +17,17 @@ import com.github.shynixn.shybossbar.entity.ShyBossBarSettings
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
 import java.util.*
 
 class ShyBossBarCommandExecutor(
     private val settings: ShyBossBarSettings,
-    private val plugin: Plugin,
+    private val plugin: CoroutinePlugin,
     private val bossBarService: BossBarService,
     private val language: ShyBossBarLanguage,
-    chatMessageService: ChatMessageService,
+    private val chatMessageService: ChatMessageService,
     private val repository: CacheRepository<ShyBossBarMeta>,
+    private val placeHolderService: PlaceHolderService
 ) {
-
-    private val coroutineExecutor = object : CoroutineExecutor {
-        override fun execute(f: suspend () -> Unit) {
-            plugin.launch(plugin.globalRegionDispatcher) {
-                f.invoke()
-            }
-        }
-    }
-
     private val senderHasToBePlayer: () -> String = {
         language.shyBossBarCommandSenderHasToBePlayer.text
     }
@@ -58,7 +50,9 @@ class ShyBossBarCommandExecutor(
         }
 
         override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return language.shyBossBarPlayerNotFoundMessage.text.format(openArgs[0])
+            return placeHolderService.resolvePlaceHolder(
+                language.shyBossBarPlayerNotFoundMessage.text, null, mapOf("0" to openArgs[0])
+            )
         }
     }
 
@@ -78,7 +72,9 @@ class ShyBossBarCommandExecutor(
         }
 
         override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return language.shyBossBarBooleanNotFoundMessage.text.format(openArgs[0])
+            return placeHolderService.resolvePlaceHolder(
+                language.shyBossBarBooleanNotFoundMessage.text, null, mapOf("0" to openArgs[0])
+            )
         }
     }
 
@@ -90,7 +86,9 @@ class ShyBossBarCommandExecutor(
         }
 
         override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return language.shyBossBarNotFoundMessage.text.format(openArgs[0])
+            return placeHolderService.resolvePlaceHolder(
+                language.shyBossBarNotFoundMessage.text, null, mapOf("0" to openArgs[0])
+            )
         }
     }
 
@@ -99,7 +97,7 @@ class ShyBossBarCommandExecutor(
     }
 
     init {
-        CommandBuilder(plugin, coroutineExecutor, settings.baseCommand, chatMessageService) {
+        CommandBuilder(plugin, settings.baseCommand, chatMessageService) {
             usage(language.shyBossBarCommandUsage.text)
             description(language.shyBossBarCommandDescription.text)
             aliases(settings.commandAliases)
@@ -108,8 +106,8 @@ class ShyBossBarCommandExecutor(
             subCommand("add") {
                 permission(settings.addPermission)
                 toolTip { language.shyBossBarAddCommandHint.text }
-                builder().argument("bossbar").validator(bossBarMustExist)
-                    .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
+                builder().argument("bossbar").validator(bossBarMustExist).tabs(bossBarTabs)
+                    .executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
                         plugin.launch {
                             addBossBarToPlayer(player, bossBarMeta, player)
                         }
@@ -123,8 +121,8 @@ class ShyBossBarCommandExecutor(
             subCommand("set") {
                 permission(settings.setPermission)
                 toolTip { language.shyBossBarSetCommandHint.text }
-                builder().argument("bossbar").validator(bossBarMustExist)
-                    .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
+                builder().argument("bossbar").validator(bossBarMustExist).tabs(bossBarTabs)
+                    .executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
                         plugin.launch {
                             setBossBarToPlayer(player, bossBarMeta, player)
                         }
@@ -138,8 +136,8 @@ class ShyBossBarCommandExecutor(
             subCommand("remove") {
                 permission(settings.removePermission)
                 toolTip { language.shyBossBarRemoveCommandHint.text }
-                builder().argument("bossbar").validator(bossBarMustExist)
-                    .tabs(bossBarTabs).executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
+                builder().argument("bossbar").validator(bossBarMustExist).tabs(bossBarTabs)
+                    .executePlayer(senderHasToBePlayer) { player, bossBarMeta ->
                         plugin.launch {
                             removeBossBarFromPlayer(player, bossBarMeta, player)
                         }
@@ -179,7 +177,7 @@ class ShyBossBarCommandExecutor(
                     plugin.reloadConfig()
                     plugin.reloadTranslation(language)
                     bossBarService.reload()
-                    sender.sendPluginMessage(language.shyBossBarReloadMessage)
+                    sender.sendLanguageMessage(language.shyBossBarReloadMessage)
                 }
             }.helpCommand()
         }.build()
@@ -187,30 +185,26 @@ class ShyBossBarCommandExecutor(
 
     private fun updatePlayerBossBar(sender: CommandSender, respawn: Boolean, player: Player) {
         bossBarService.getBossBarFromPlayer(player)?.update(respawn)
-        sender.sendPluginMessage(language.shyBossBarUpdatedMessage)
+        sender.sendLanguageMessage(language.shyBossBarUpdatedMessage)
     }
 
     private fun addBossBarToPlayer(
-        sender: CommandSender,
-        bossBarMeta: ShyBossBarMeta,
-        player: Player
+        sender: CommandSender, bossBarMeta: ShyBossBarMeta, player: Player
     ) {
         if (!player.hasPermission("${settings.dynBossBarPermission}${bossBarMeta.name}")) {
-            sender.sendPluginMessage(language.shyBossBarNoPermissionToBossBarCommand)
+            sender.sendLanguageMessage(language.shyBossBarNoPermissionToBossBarCommand)
             return
         }
 
         bossBarService.addCommandBossBar(player, bossBarMeta.name)
-        sender.sendPluginMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
+        sender.sendLanguageMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
     }
 
     private fun setBossBarToPlayer(
-        sender: CommandSender,
-        bossBarMeta: ShyBossBarMeta,
-        player: Player
+        sender: CommandSender, bossBarMeta: ShyBossBarMeta, player: Player
     ) {
         if (!player.hasPermission("${settings.dynBossBarPermission}${bossBarMeta.name}")) {
-            sender.sendPluginMessage(language.shyBossBarNoPermissionToBossBarCommand)
+            sender.sendLanguageMessage(language.shyBossBarNoPermissionToBossBarCommand)
             return
         }
 
@@ -219,15 +213,20 @@ class ShyBossBarCommandExecutor(
             bossBarService.removeCommandBossBar(player, bossBar)
         }
         bossBarService.addCommandBossBar(player, bossBarMeta.name)
-        sender.sendPluginMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
+        sender.sendLanguageMessage(language.shyBossBarAddedMessage, bossBarMeta.name, player.name)
     }
 
     private fun removeBossBarFromPlayer(
-        sender: CommandSender,
-        bossBarMeta: ShyBossBarMeta,
-        player: Player
+        sender: CommandSender, bossBarMeta: ShyBossBarMeta, player: Player
     ) {
         bossBarService.removeCommandBossBar(player, bossBarMeta.name)
-        sender.sendPluginMessage(language.shyBossBarRemovedMessage, bossBarMeta.name, player.name)
+        sender.sendLanguageMessage(language.shyBossBarRemovedMessage, bossBarMeta.name, player.name)
+    }
+
+    private fun CommandSender.sendLanguageMessage(languageItem: LanguageItem, vararg args: String) {
+        val sender = this
+        plugin.launch(plugin.globalRegionDispatcher) {
+            chatMessageService.sendLanguageMessage(sender, languageItem, *args)
+        }
     }
 }

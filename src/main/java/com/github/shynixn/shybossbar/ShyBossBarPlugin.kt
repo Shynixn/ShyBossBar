@@ -1,8 +1,8 @@
 package com.github.shynixn.shybossbar
 
-import com.github.shynixn.mccoroutine.folia.launch
-import com.github.shynixn.mccoroutine.folia.mcCoroutineConfiguration
+import com.github.shynixn.mccoroutine.folia.*
 import com.github.shynixn.mcutils.common.ChatColor
+import com.github.shynixn.mcutils.common.CoroutinePlugin
 import com.github.shynixn.mcutils.common.Version
 import com.github.shynixn.mcutils.common.checkIfFoliaIsLoadable
 import com.github.shynixn.mcutils.common.di.DependencyInjectionModule
@@ -16,11 +16,15 @@ import com.github.shynixn.shybossbar.entity.ShyBossBarSettings
 import com.github.shynixn.shybossbar.enumeration.PlaceHolder
 import com.github.shynixn.shybossbar.impl.commandexecutor.ShyBossBarCommandExecutor
 import com.github.shynixn.shybossbar.impl.listener.ShyBossBarListener
+import kotlinx.coroutines.Job
 import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
+import kotlin.coroutines.CoroutineContext
 
-class ShyBossBarPlugin : JavaPlugin() {
+class ShyBossBarPlugin : JavaPlugin(), CoroutinePlugin {
     private val prefix: String = ChatColor.BLUE.toString() + "[ShyBossBar] " + ChatColor.WHITE
     private var module: DependencyInjectionModule? = null
     private var worldGuardService: WorldGuardService? = null
@@ -135,6 +139,23 @@ class ShyBossBarPlugin : JavaPlugin() {
         worldGuardService!!.registerFlag("shybossbar", String::class.java)
     }
 
+    override fun execute(f: suspend () -> Unit): Job {
+        return launch {
+            f.invoke()
+        }
+    }
+
+    override fun fetchEntityDispatcher(entity: Entity): CoroutineContext {
+        return entityDispatcher(entity)
+    }
+
+    override fun fetchGlobalRegionDispatcher(): CoroutineContext {
+        return globalRegionDispatcher
+    }
+
+    override fun fetchLocationDispatcher(location: Location): CoroutineContext {
+        return regionDispatcher(location)
+    }
     override fun onDisable() {
         if (module == null) {
             return
