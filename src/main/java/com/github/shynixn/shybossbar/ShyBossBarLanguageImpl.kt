@@ -6,7 +6,7 @@ import com.github.shynixn.shybossbar.contract.ShyBossBarLanguage
 class ShyBossBarLanguageImpl : ShyBossBarLanguage {
  override val names: List<String>
   get() = listOf("en_us")
- override var shyBossBarPlayerNotFoundMessage = LanguageItem("[&9ShyBossBar&f] &cPlayer %1$1s not found.")
+ override var shyBossBarPlayerNotFoundMessage = LanguageItem("[&9ShyBossBar&f] &cPlayer %shybossbar_param_1% not found.")
 
  override var shyBossBarNoPermissionCommand = LanguageItem("[&9ShyBossBar&f] &cYou do not have permission to execute this command.")
 
@@ -28,13 +28,13 @@ class ShyBossBarLanguageImpl : ShyBossBarLanguage {
 
  override var shyBossBarRemoveCommandHint = LanguageItem("Removes a bossbar from a player.")
 
- override var shyBossBarNotFoundMessage = LanguageItem("[&9ShyBossBar&f] &cBossBar %1$1s not found.")
+ override var shyBossBarNotFoundMessage = LanguageItem("[&9ShyBossBar&f] &cBossBar %shybossbar_param_1% not found.")
 
  override var shyBossBarNoPermissionToBossBarCommand = LanguageItem("[&9ShyBossBar&f] &cYou do not have permission to this bossbar.")
 
- override var shyBossBarAddedMessage = LanguageItem("[&9ShyBossBar&f] Added the bossbar %1$1s to the player %2$1s.")
+ override var shyBossBarAddedMessage = LanguageItem("[&9ShyBossBar&f] Added the bossbar %shybossbar_param_1% to the player %shybossbar_param_2%.")
 
- override var shyBossBarRemovedMessage = LanguageItem("[&9ShyBossBar&f] Removed the bossbar %1$1s from the player %2$1s.")
+ override var shyBossBarRemovedMessage = LanguageItem("[&9ShyBossBar&f] Removed the bossbar %shybossbar_param_1% from the player %shybossbar_param_2%.")
 
  override var shyBossBarUpdateCommandHint = LanguageItem("Updates the placeholder of the bossbar.")
 

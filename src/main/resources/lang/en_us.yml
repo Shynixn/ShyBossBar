@@ -4,7 +4,7 @@ shyBossBarPlayerNotFoundMessage:
   # Please notice that some messages do only support chat.
   type: "CHAT"
   # The primary text to be sent.
-  text: "[&9ShyBossBar&f] &cPlayer %1$1s not found."
+  text: "[&9ShyBossBar&f] &cPlayer %shybossbar_param_1% not found."
   # Only available for type "TITLE". Adds a subTitle.
   subTitle: ""
   # Only available for type: "TITLE". Adds a fade in effect.
@@ -45,16 +45,16 @@ shyBossBarRemoveCommandHint:
   text: "Removes a bossbar from a player."
 shyBossBarNotFoundMessage:
   type: "CHAT"
-  text: "[&9ShyBossBar&f] &cBossBar %1$1s not found."
+  text: "[&9ShyBossBar&f] &cBossBar %shybossbar_param_1% not found."
 shyBossBarNoPermissionToBossBarCommand:
   type: "CHAT"
   text: "[&9ShyBossBar&f] &cYou do not have permission to this bossbar."
 shyBossBarAddedMessage:
   type: "CHAT"
-  text: "[&9ShyBossBar&f] Added the bossbar %1$1s to the player %2$1s."
+  text: "[&9ShyBossBar&f] Added the bossbar %shybossbar_param_1% to the player %shybossbar_param_2%."
 shyBossBarRemovedMessage:
   type: "CHAT"
-  text: "[&9ShyBossBar&f] Removed the bossbar %1$1s from the player %2$1s."
+  text: "[&9ShyBossBar&f] Removed the bossbar %shybossbar_param_1% from the player %shybossbar_param_2%."
 shyBossBarUpdateCommandHint:
   type: "CHAT"
   text: "Updates the placeholder of the bossbar."
