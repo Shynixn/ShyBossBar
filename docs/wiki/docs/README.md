@@ -11,7 +11,7 @@ ShyBossBar is a powerful and flexible BossBar plugin designed for Bukkit and Fol
 * **PlaceholderAPI Integration** - Use dynamic placeholders in your boss bar messages
 * **WorldGuard Integration** - Display boss bars when players enter specific regions
 * **Asynchronous Processing** - Runs efficiently without impacting server performance
-* **Wide Version Support** - Compatible with Minecraft versions 1.9.R1 through 1.21.R6
+* **Wide Version Support** - Compatible with Minecraft versions 1.9.R1 through 1.21.R7
 
 ## Quick Start
 

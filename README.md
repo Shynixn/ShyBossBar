@@ -9,7 +9,7 @@ ShyBossBar is a BossBar plugin for Bukkit and Folia based Minecraft server.
 * PlaceHolderApi support
 * WorldGuard Flag support
 * Runs asynchronously
-* Version support 1.9.R1 - 1.21.R6
+* Version support 1.9.R1 - 1.21.R7
 
 ## Installation
 
