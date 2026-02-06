@@ -23,13 +23,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v16
         with:
           java-version: '8'
 
       - name: Build Java Application
         env:
-          SHYNIXN_MCUTILS_REPOSITORY_2025: ${{ secrets.SHYNIXN_MCUTILS_REPOSITORY_2025 }}
+          SHYNIXN_MCUTILS_REPOSITORY_2026: ${{ secrets.SHYNIXN_MCUTILS_REPOSITORY_2026 }}
         run: |
           chmod +x gradlew
           ./gradlew build pluginJars

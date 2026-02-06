@@ -2,9 +2,10 @@ package com.github.shynixn.shybossbar.impl.commandexecutor
 
 import com.github.shynixn.mccoroutine.folia.globalRegionDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import com.github.shynixn.mcutils.common.CoroutinePlugin
+import com.github.shynixn.mcutils.common.CoroutineHandler
 import com.github.shynixn.mcutils.common.chat.ChatMessageService
 import com.github.shynixn.mcutils.common.command.CommandBuilder
+import com.github.shynixn.mcutils.common.command.CommandService
 import com.github.shynixn.mcutils.common.command.Validator
 import com.github.shynixn.mcutils.common.language.LanguageItem
 import com.github.shynixn.mcutils.common.language.reloadTranslation
@@ -17,16 +18,19 @@ import com.github.shynixn.shybossbar.entity.ShyBossBarSettings
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 import java.util.*
 
 class ShyBossBarCommandExecutor(
     private val settings: ShyBossBarSettings,
-    private val plugin: CoroutinePlugin,
+    private val plugin: Plugin,
     private val bossBarService: BossBarService,
     private val language: ShyBossBarLanguage,
     private val chatMessageService: ChatMessageService,
     private val repository: CacheRepository<ShyBossBarMeta>,
-    private val placeHolderService: PlaceHolderService
+    private val placeHolderService: PlaceHolderService,
+    coroutineHandler: CoroutineHandler,
+    commandService: CommandService
 ) {
     private val senderHasToBePlayer: () -> String = {
         language.shyBossBarCommandSenderHasToBePlayer.text
@@ -97,7 +101,7 @@ class ShyBossBarCommandExecutor(
     }
 
     init {
-        CommandBuilder(plugin, settings.baseCommand, chatMessageService) {
+        commandService.registerCommand(CommandBuilder(coroutineHandler, plugin, settings.baseCommand, chatMessageService) {
             usage(language.shyBossBarCommandUsage.text)
             description(language.shyBossBarCommandDescription.text)
             aliases(settings.commandAliases)
@@ -180,7 +184,7 @@ class ShyBossBarCommandExecutor(
                     sender.sendLanguageMessage(language.shyBossBarReloadMessage)
                 }
             }.helpCommand()
-        }.build()
+        })
     }
 
     private fun updatePlayerBossBar(sender: CommandSender, respawn: Boolean, player: Player) {
