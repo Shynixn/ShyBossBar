@@ -2,9 +2,10 @@ package com.github.shynixn.shybossbar
 
 import com.github.shynixn.mccoroutine.folia.*
 import com.github.shynixn.mcutils.common.ChatColor
-import com.github.shynixn.mcutils.common.CoroutinePlugin
+import com.github.shynixn.mcutils.common.CoroutineHandler
 import com.github.shynixn.mcutils.common.Version
 import com.github.shynixn.mcutils.common.checkIfFoliaIsLoadable
+import com.github.shynixn.mcutils.common.commonServer
 import com.github.shynixn.mcutils.common.di.DependencyInjectionModule
 import com.github.shynixn.mcutils.common.language.reloadTranslation
 import com.github.shynixn.mcutils.common.placeholder.PlaceHolderService
@@ -24,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
 import kotlin.coroutines.CoroutineContext
 
-class ShyBossBarPlugin : JavaPlugin(), CoroutinePlugin {
+class ShyBossBarPlugin : JavaPlugin(), CoroutineHandler {
     private val prefix: String = ChatColor.BLUE.toString() + "[ShyBossBar] " + ChatColor.WHITE
     private var module: DependencyInjectionModule? = null
     private var worldGuardService: WorldGuardService? = null
@@ -42,6 +43,7 @@ class ShyBossBarPlugin : JavaPlugin(), CoroutinePlugin {
 
     override fun onEnable() {
         Bukkit.getServer().consoleSender.sendMessage(prefix + ChatColor.GREEN + "Loading ShyBossBar ...")
+        commonServer = Bukkit.getServer()
         this.saveDefaultConfig()
         this.reloadConfig()
         val versions = if (areLegacyVersionsIncluded) {
@@ -114,7 +116,7 @@ class ShyBossBarPlugin : JavaPlugin(), CoroutinePlugin {
             settings.checkForChangeChangeSeconds = plugin.config.getInt("global.checkForPermissionChangeSeconds")
         }
         settings.reload()
-        val placeHolderService = PlaceHolderServiceImpl(this)
+        val placeHolderService = PlaceHolderServiceImpl(this, Bukkit.getPluginManager())
         this.module = ShyBossBarDependencyInjectionModule(this, settings, language, worldGuardService!!, placeHolderService).build()
 
         // Register PlaceHolders
