@@ -1,5 +1,5 @@
-name: ShyScoreboard
+name: ShyBossBar
 version: 1.7.0
 author: Shynixn
-main: com.github.shynixn.shyscoreboard.ShyScoreboardPlugin
+main: com.github.shynixn.shybossbar.ShyBossBarPlugin
 softdepend: [ PlaceholderAPI, WorldGuard]
