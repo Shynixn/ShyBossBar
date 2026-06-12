@@ -52,12 +52,6 @@ class ShyBossBarCommandExecutor(
                 return null
             }
         }
-
-        override suspend fun message(sender: CommandSender, prevArgs: List<Any>, openArgs: List<String>): String {
-            return placeHolderService.resolvePlaceHolder(
-                language.shyBossBarPlayerNotFoundMessage.text, null, mapOf("0" to openArgs[0])
-            )
-        }
     }
 
     private val bossBarTabs: (CommandSender) -> List<String> = {
