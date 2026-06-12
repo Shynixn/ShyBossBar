@@ -114,7 +114,7 @@ class ShyBossBarPlugin : JavaPlugin(), CoroutineHandler {
         val plugin = this
         val settings = ShyBossBarSettings { settings ->
             settings.joinDelaySeconds = plugin.config.getInt("global.joinDelaySeconds")
-            settings.checkForChangeChangeSeconds = plugin.config.getInt("global.checkForPermissionChangeSeconds")
+            settings.checkForChangeChangeSeconds = plugin.config.getInt("global.checkForChangeSeconds")
         }
         settings.reload()
         val placeHolderService = PlaceHolderServiceImpl(this, Bukkit.getPluginManager())

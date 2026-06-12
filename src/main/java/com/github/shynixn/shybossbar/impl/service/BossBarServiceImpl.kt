@@ -114,6 +114,9 @@ class BossBarServiceImpl(
             }
             flags
         }
+        if (!player.isOnline) {
+            return
+        }
         val allBossBarMetas = repository.getAll()
         updatePlayerBossBar(player, allBossBarMetas, flags)
     }
@@ -134,7 +137,7 @@ class BossBarServiceImpl(
     override fun close() {
         val bossBars = bossBarCache.values.toTypedArray()
         for (bossBar in bossBars) {
-            bossBars.clone()
+            bossBar.close()
         }
         bossBarCache.clear()
         commandBossBars.clear()
@@ -232,6 +235,9 @@ class BossBarServiceImpl(
 
         val allBossBarMetas = repository.getAll()
         for (playerContainer in playerContainers) {
+            if (!playerContainer.first.isOnline) {
+                continue
+            }
             updatePlayerBossBar(playerContainer.first, allBossBarMetas, playerContainer.second)
         }
     }
