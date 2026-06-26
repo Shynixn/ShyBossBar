@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 1.8.1
+
+### Bugs/Issues
+
+* #26 Fixed a version detection bug on Paper 26.2 builds.
+
+---
+
 ## Release 1.8.0
 
 ### Changes
