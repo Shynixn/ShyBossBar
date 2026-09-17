@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 1.9.0
+
+### Changes
+
+* #31 Added support for Minecraft 26.3.x
+
+---
+
 ## Release 1.8.1
 
 ### Bugs/Issues
