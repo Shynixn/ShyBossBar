@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1035,7 +1035,7 @@
 </li>
 <li>
 <p><strong>Important:</strong> Change the type from <code>GLOBAL</code> to <code>COMMAND</code> to disable the sample boss bar:
-   <div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMMAND&quot;</span>
+   <div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"COMMAND"</span>
 </code></pre></div></p>
 </li>
 <li>
@@ -1049,17 +1049,17 @@
 <ol>
 <li>
 <p><strong>Set the unique name:</strong>
-   <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my_bossbar&quot;</span>
+   <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"my_bossbar"</span>
 </code></pre></div></p>
 </li>
 <li>
 <p><strong>Choose the type:</strong>
-   <div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GLOBAL&quot;</span><span class="w">  </span><span class="c1"># or &quot;COMMAND&quot; or &quot;WORLDGUARD&quot;</span>
+   <div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"GLOBAL"</span><span class="w">  </span><span class="c1"># or "COMMAND" or "WORLDGUARD"</span>
 </code></pre></div></p>
 </li>
 <li>
 <p><strong>Set your message:</strong>
-   <div class="highlight"><pre><span></span><code><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&amp;aWelcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">our</span><span class="nv"> </span><span class="s">server!&quot;</span>
+   <div class="highlight"><pre><span></span><code><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">"&amp;aWelcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">our</span><span class="nv"> </span><span class="s">server!"</span>
 </code></pre></div></p>
 </li>
 <li>
@@ -1073,9 +1073,9 @@
    <div class="highlight"><pre><span></span><code><span class="nt">refreshTicks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
 </code></pre></div></p>
 <p><strong>Visual appearance:</strong>
-   <div class="highlight"><pre><span></span><code><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GREEN&quot;</span><span class="w">  </span><span class="c1"># PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE</span>
-<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span><span class="w">  </span><span class="c1"># 0.0 to 1.0</span>
-<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PROGRESS&quot;</span><span class="w">  </span><span class="c1"># PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20</span>
+   <div class="highlight"><pre><span></span><code><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">"GREEN"</span><span class="w">  </span><span class="c1"># PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE</span>
+<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">"1.0"</span><span class="w">  </span><span class="c1"># 0.0 to 1.0</span>
+<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">"PROGRESS"</span><span class="w">  </span><span class="c1"># PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20</span>
 </code></pre></div></p>
 <h3 id="step-3-activate-your-bossbar">Step 3: Activate Your BossBar</h3>
 <ol>
@@ -1106,36 +1106,36 @@
 </ul>
 <h2 id="configuration-examples">Configuration Examples</h2>
 <h3 id="example-1-welcome-message-for-new-players">Example 1: Welcome Message for New Players</h3>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;welcome_message&quot;</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GLOBAL&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"welcome_message"</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"GLOBAL"</span>
 <span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="nt">refreshTicks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
-<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&amp;a&amp;lWelcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">our</span><span class="nv"> </span><span class="s">server,</span><span class="nv"> </span><span class="s">%player_name%!&quot;</span>
-<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GREEN&quot;</span>
-<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
-<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PROGRESS&quot;</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">"&amp;a&amp;lWelcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">our</span><span class="nv"> </span><span class="s">server,</span><span class="nv"> </span><span class="s">%player_name%!"</span>
+<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">"GREEN"</span>
+<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">"1.0"</span>
+<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">"PROGRESS"</span>
 <span class="nt">flags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </code></pre></div>
 <h3 id="example-2-pvp-zone-warning">Example 2: PvP Zone Warning</h3>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pvp_warning&quot;</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;WORLDGUARD&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"pvp_warning"</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"WORLDGUARD"</span>
 <span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 <span class="nt">refreshTicks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40</span>
-<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&amp;c&amp;lPvP</span><span class="nv"> </span><span class="s">Zone</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Be</span><span class="nv"> </span><span class="s">Careful!&quot;</span>
-<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;RED&quot;</span>
-<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.8&quot;</span>
-<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NOTCHED_6&quot;</span>
-<span class="nt">flags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;DARKEN_SKY&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">"&amp;c&amp;lPvP</span><span class="nv"> </span><span class="s">Zone</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Be</span><span class="nv"> </span><span class="s">Careful!"</span>
+<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">"RED"</span>
+<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">"0.8"</span>
+<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">"NOTCHED_6"</span>
+<span class="nt">flags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"DARKEN_SKY"</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <h3 id="example-3-event-countdown">Example 3: Event Countdown</h3>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;event_countdown&quot;</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMMAND&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"event_countdown"</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"COMMAND"</span>
 <span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="nt">refreshTicks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
-<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&amp;e&amp;lEvent</span><span class="nv"> </span><span class="s">starts</span><span class="nv"> </span><span class="s">in:</span><span class="nv"> </span><span class="s">%countdown_time%&quot;</span>
-<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;YELLOW&quot;</span>
-<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;%countdown_progress%&quot;</span>
-<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PROGRESS&quot;</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">"&amp;e&amp;lEvent</span><span class="nv"> </span><span class="s">starts</span><span class="nv"> </span><span class="s">in:</span><span class="nv"> </span><span class="s">%countdown_time%"</span>
+<span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">"YELLOW"</span>
+<span class="nt">progress</span><span class="p">:</span><span class="w"> </span><span class="s">"%countdown_progress%"</span>
+<span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">"PROGRESS"</span>
 <span class="nt">flags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </code></pre></div>
 <h2 id="troubleshooting">Troubleshooting</h2>
@@ -1247,7 +1247,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tabs", "content.tabs.link", "content.code.copy", "navigation.footer"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
